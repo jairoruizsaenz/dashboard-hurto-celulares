@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript modules</title>
+
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.4.2/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.4.2/build/ol.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="barChart.js"></script>
+    <script src="barChart.1.js"></script>
+    <script src="scatterPlot.js"></script>
+</head>
+
+<body>
+    <script src="pob_piramid.js"></script>
+    <div id="gender"></div>
+    <div id="piramid" style="width: 400px; height: 400px;"></div>
+    <div id="map" class="map"></div>
+    <div id="chart"></div>
+    <div id="chart2"></div>
+    <script src="mapModule.js"></script>
+    <script>
+        /* global barChart, scatterPlot, d3*/
+
+        var myBarChart = barChart()
+            .width(500)
+            .height(300)
+            .x(function (d) { return d.Barrio2; })
+            .y(function (d) { return +d["2016"]; });
+
+        var myGenderChart = genderChart()
+            .width(200)
+            .height(120)
+            .xLeft(function (d) { return +d.FEMENINO; })
+            .xRight(function (d) { return +d.MASCULINO; })
+            .y(function (d) { return d.EDAD; });
+
+        var myScatterPlot = scatterPlot()
+            .width(500)
+            .height(300)
+            .x(function (d) { return d.Barrio2; })
+            .y(function (d) { return +d["2016"]; });
+
+        d3.tsv("data/Hurto celulares - Barrio2.tsv",
+            function (d) {
+                d["2016"] = +d["2016"];
+                return d;
+            },
+            function (err, data) {
+                if (err) throw err;
+                data.sort(function (a, b) { return b["2016"] - a["2016"]; })
+
+                d3.select("#chart")
+                    .datum(data.slice(0, 200))
+                    .call(myBarChart);
+
+                d3.select("#chart2")
+                    .datum(data.slice(0, 200))
+                    .call(myScatterPlot);
+
+                setTimeout(function () {
+                    d3.select("#chart")
+                        .datum(data.slice(0, 20))
+                        .call(myBarChart);
+                }, 8000);
+            });
+
+        d3.tsv("data/Hurto celulares - Edad.tsv",
+            function (d) {
+                d.FEMENINO = +d.FEMENINO;
+                d.MASCULINO = +d.MASCULINO;
+                return d;
+            },
+            function (err, data) {
+                if (err) throw err;
+
+                d3.select("#gender")
+                    .datum(data)
+                    .call(myGenderChart);
+            });
+
+    </script>
+</body>
+
+</html>
