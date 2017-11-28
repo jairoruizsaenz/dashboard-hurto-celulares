@@ -1,99 +1,24 @@
+/* global d3 */
 
-// var svg = d3.select('body').append('svg')
-//     .attr('width', margin.left + width + margin.right)
-//     .attr('height', margin.top + height + margin.bottom)
-//     .append('g')
-//     .attr('class', 'inner-region')
-//     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+function genderChart(selection) {
+    var
+        margin = { top: 20, right: 20, bottom: 30, left: 20, middle: 28 },
+        width = 200,
+        height = 400,
+        yValue = function (d) { return d[0]; },
+        xLeftValue = function (d) { return d[1]; },
+        xRightValue = function (d) { return d[2]; },
 
-// var yAxisLeft = d3.svg.axis()
-//     .scale(yScale)
-//     .orient('right')
-//     .tickSize(4, 0)
-//     .tickPadding(margin.middle - 4);
+        xScale = d3.scaleLinear(),
+        xScaleLeft = d3.scaleLinear(),
+        xScaleRight = d3.scaleLinear(),
+        yScale = d3.scaleBand(),
 
-// var yAxisRight = d3.svg.axis()
-//     .scale(yScale)
-//     .orient('left')
-//     .tickSize(4, 0)
-//     .tickFormat('');
-
-// ******************************************
-function genderChart() {
-
-    var width = 400,
-        height = 300;
-
-    // margin.middle is distance from center line to each y-axis
-    var margin = {
-        top: 20,
-        right: 20,
-        bottom: 24,
-        left: 20,
-        middle: 28
-    };
-
-    // the width of each side of the chart
-    var regionWidth = (width / 2) - margin.middle;
-
-    // these are the x-coordinates of the y-axes
-    var pointA = regionWidth,
-        pointB = width - regionWidth;
-
-    // GET THE TOTAL POPULATION SIZE AND CREATE A FUNCTION FOR RETURNING THE PERCENTAGE
-
-    // var totalPopulation = d3.sum(exampleData, function (d) { return d.male + d.female; }),
-    //     percentage = function (d) { return (d / totalPopulation).toPrecision(8); },
-    //     formatPercent = d3.format(".0%");
-
-    // CREATE SVG
-    // d3.select('#gender').select("svg").remove();
-
-    var svg = d3.select(this).selectAll("svg").data([data]);
-
-    var svg = d3.select(this).append('svg')
-        .attr('width', margin.left + width + margin.right)
-        .attr('height', margin.top + height + margin.bottom)
-        // ADD A GROUP FOR THE SPACE WITHIN THE MARGINS
-        .append('g')
-        .attr('transform', translation(margin.left, margin.top));
-
-    // find the maximum data value on either side
-    //  since this will be shared by both of the x-axes
-    //var maxValue = Math.max(
-    //d3.max(exampleData, function(d) { return percentage(d.male); }),
-    //	d3.max(exampleData, function(d) { return percentage(d.female); })
-    //);
-    var maxValue = 0.07;
-    // SET UP SCALES
-
-    // the xScale goes from 0 to the width of a region
-    //  it will be reversed for the left x-axis
-    // var xScale = d3.scale.linear()
-    var xScale = d3.scaleLinear()
-        .domain([0, maxValue])
-        .range([0, regionWidth])
-        .nice();
-
-    // var xScaleLeft = d3.scale.linear()
-    var xScaleLeft = d3.scaleLinear()
-        .domain([0, maxValue])
-        .range([regionWidth, 0]);
-
-    // var xScaleRight = d3.scale.linear()
-    var xScaleRight = d3.scaleLinear()
-        .domain([0, maxValue])
-        .range([0, regionWidth]);
-
-    // var yScale = d3.scale.ordinal()
-    // var yScale = d3.scaleOrdinal()
-    // 	.domain(exampleData.map(function (d) { console.log("d.group", d.group); return d.group; }))
-    // .range([h, 0], 0.05);
-    // .rangeRoundBands([h,0], 0.05);
-    var yScale = d3.scaleBand()
-        .domain(exampleData.map(function (d) { console.log("d.group", d.group); return d.group; }))
-        .range([h, 0])
-        .paddingInner(0.05);
+        innerWidth = 0,
+        innerHeight = 0,
+        regionWidth = 0,
+        pointA = 0,
+        pointB = 0;
 
     // SET UP AXES
     var yAxisLeft = d3.axisRight()
@@ -107,113 +32,181 @@ function genderChart() {
         .tickFormat('');
 
     var xAxisRight = d3.axisBottom()
-        .scale(xScale)
-        .ticks(3)
-        .tickFormat(formatPercent);
+        .scale(xScaleRight)
+        .ticks(5);
+    // .tickFormat('');
 
     var xAxisLeft = d3.axisBottom()
         // REVERSE THE X-AXIS SCALE ON THE LEFT SIDE BY REVERSING THE RANGE
-        .scale(xScale.copy().range([pointA, 0]))
-        .ticks(3)
-        .tickFormat(formatPercent);
+        // .scale(xScale.copy().range([pointA, 0]))
+        .scale(xScaleLeft)
+        .ticks(5);
+    // .tickFormat('');
 
-    // MAKE GROUPS FOR EACH SIDE OF CHART
-    // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
-    var leftBarGroup = svg.append('g')
-        .attr('transform', translation(pointA, 0) + 'scale(-1,1)');
-    var rightBarGroup = svg.append('g')
-        .attr('transform', translation(pointB, 0));
+    function chart(selection) {
+        selection.each(function (data) {
 
-    // DRAW AXES
-    svg.append('g')
-        .attr('class', 'axis y left')
-        .attr('transform', translation(pointA, 0))
-        .call(yAxisLeft)
-        .selectAll('text')
-        .style('text-anchor', 'middle');
+            calcularMedidas();
 
-    svg.append('g')
-        .attr('class', 'axis y right')
-        .attr('transform', translation(pointB, 0))
-        .call(yAxisRight);
+            // Select the svg element, if it exists.
+            var svg = d3.select(this).selectAll("svg").data([data]);
 
-    svg.append('g')
-        .attr('class', 'axis x left')
-        .attr('transform', translation(0, h))
-        .call(xAxisLeft);
+            // Otherwise, create the skeletal chart.
+            var svgEnter = svg.enter().append("svg")
+                .attr("width", width)
+                .attr("height", height);
 
-    svg.append('g')
-        .attr('class', 'axis x right')
-        .attr('transform', translation(pointB, h))
-        .call(xAxisRight);
+            yScale.range([innerHeight, 0])
+                .domain(data.map(function (d) { return yValue(d); }))
+                .paddingInner(0.05);
+            xScaleLeft.range([regionWidth, 0])
+                .domain([0, d3.max(data, function (d) { return d3.max([xLeftValue(d), xRightValue(d)]); }) * 1.15]);
+            xScaleRight.range([0, regionWidth])
+                .domain([0, d3.max(data, function (d) { return d3.max([xLeftValue(d), xRightValue(d)]); }) * 1.15]);
 
-    console.log("exampleData", exampleData);
-    // DRAW BARS
-    leftBarGroup.selectAll('.bar.left')
-        .data(exampleData)
-        .enter().append('rect')
-        .attr('class', 'bar left')
-        .attr('x', 0)
-        .attr('y', function (d) { return yScale(d.group); })
-        .attr('width', function (d) { return xScale(percentage(d.male)); })
-        .attr('height', yScale.bandwidth());
+            // DRAW AXES
+            svgEnter.append('g')
+                .attr('class', 'axis y left')
+                .attr('transform', translation(pointA, margin.top))
+                .call(yAxisLeft)
+                .selectAll('text')
+                .style('text-anchor', 'middle');
 
-    leftBarGroup.selectAll("text")
-        .attr('class', 'text_data')
-        .data(exampleData)
-        .enter()
-        .append("text")
-        .attr('x', function (d) { return -xScale(percentage(d.male)) - 28; })
-        .attr('y', function (d) { return yScale(d.group) + yScale.bandwidth() / 2 + 5; })
-        .text(function (d) { return d3.format(".2%")(percentage(d.male)) })
-        .attr('style', 'font-size:10px;transform: scaleX(-1);-ms-transform:scaleX(-1);-moz-transform:scaleX(-1);-webkit-transform:scaleX(-1);-o-transform:scaleX(-1);');
+            svgEnter.append('g')
+                .attr('class', 'axis y right')
+                .attr('transform', translation(pointB - 1, margin.top))
+                .call(yAxisRight);
 
-    rightBarGroup.selectAll('.bar.right')
-        .data(exampleData)
-        .enter().append('rect')
-        .attr('class', 'bar right')
-        .attr('x', 0)
-        .attr('y', function (d) { return yScale(d.group); })
-        .attr('width', function (d) { return xScale(percentage(d.female)); })
-        .attr('height', yScale.bandwidth());
+            svgEnter.append('g')
+                .attr('class', 'axis x left')
+                .attr('transform', translation(margin.left, innerHeight + margin.top))
+                .call(xAxisLeft);
 
-    rightBarGroup.selectAll("text")
-        .attr('class', 'text_data')
-        .data(exampleData)
-        .enter()
-        .append("text")
-        .attr('x', function (d) { return xScale(percentage(d.female)) + 5; })
-        .attr('y', function (d) { return yScale(d.group) + yScale.bandwidth() / 2 + 5; })
-        .text(function (d) { return d3.format(".2%")(percentage(d.female)) })
-        .attr('style', 'font-size:10px;');;
+            svgEnter.append('g')
+                .attr('class', 'axis x right')
+                .attr('transform', translation(pointB, innerHeight + margin.top))
+                .call(xAxisRight);
+            // END DRAW AXES
 
-    $("#ttl_year").text(year);
+            // MAKE GROUPS FOR EACH SIDE OF CHART
+            // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
+            var leftBarGroup = svgEnter.append('g')
+                .attr('transform', translation(pointA, 0) + 'scale(-1, 1)');
+            var rightBarGroup = svgEnter.append('g')
+                .attr('transform', translation(pointB, 0));
 
-    svg.selectAll("text")
-        .data(exampleData)
-        .enter()
-        .append("text")
-        .text(function (d) {
 
+            // DRAW BARS
+            leftBarGroup.selectAll('.bar.left')
+                .data(data)
+                .enter().append('rect')
+                .attr('class', 'bar left')
+                .attr('x', 0)
+                .attr('y', function (d) { return Y(d); })
+                .attr('width', function (d) { return xScaleRight(xLeftValue(d)); })
+                .attr('height', yScale.bandwidth())
+                .attr('transform', translation(0, margin.top));
+
+            leftBarGroup.selectAll("text")
+                .attr('class', 'text_data')
+                .data(data)
+                .enter()
+                .append("text")
+                .attr('x', function (d) { return xScaleRight(-100 - xLeftValue(d)); })
+                .attr('y', function (d) { return Y(d) + margin.top + yScale.bandwidth() / 2 + 5; })
+                .text(function (d) { return xLeftValue(d); })
+                .attr('style', 'font-size:10px;transform: scaleX(-1);-ms-transform:scaleX(-1);-moz-transform:scaleX(-1);-webkit-transform:scaleX(-1);-o-transform:scaleX(-1);');
+
+            rightBarGroup.selectAll('.bar.right')
+                .data(data)
+                .enter().append('rect')
+                .attr('class', 'bar right')
+                .attr('x', 0)
+                .attr('y', function (d) { return Y(d); })
+                .attr('width', function (d) { return XRight(d); })
+                .attr('height', yScale.bandwidth())
+                .attr('transform', translation(0, margin.top));
+
+            rightBarGroup.selectAll("text")
+                .attr('class', 'text_data')
+                .data(data)
+                .enter()
+                .append("text")
+                .attr('x', function (d) { return XRight(d) + 5; })
+                .attr('y', function (d) { return Y(d) + yScale.bandwidth() / 2 + 5; })
+                .text(function (d) { return xRightValue(d) })
+                .attr('style', 'font-size:10px;')
+                .attr('transform', translation(0, margin.top));
+            // END DRAW BARS
         });
 
-    // so sick of string concatenation for translations
+    }
+
+    function calcularMedidas() {
+        innerWidth = width - margin.left - margin.right;
+        innerHeight = height - margin.top - margin.bottom;
+        regionWidth = (innerWidth / 2) - margin.middle;
+        pointA = (width / 2) - margin.middle;
+        pointB = width - regionWidth - margin.right;
+    }
+
     function translation(x, y) {
         return 'translate(' + x + ',' + y + ')';
     }
-};
 
+    // The x-accessor for the path generator; xScale o xValue.
+    function XLeft(d) {
+        return xScaleLeft(xLeftValue(d));
+    }
 
-d3.tsv("data/Hurto celulares - Edad.tsv",
-function (d) {
-    d.FEMENINO = +d.FEMENINO;
-    d.MASCULINO = +d.MASCULINO;
-    return d;
-},
-function (err, data) {
-    if (err) throw err;
+    // The x-accessor for the path generator; xScale o xValue.
+    function XRight(d) {
+        return xScaleRight(xRightValue(d));
+    }
 
-    d3.select("#gender")
-        .datum(data)
-        .call(genderChart);
-});
+    // The y-accessor for the path generator; yScale o yValue.
+    function Y(d) {
+        return yScale(yValue(d));
+    }
+
+    chart.margin = function (_) {
+        if (!arguments.length) return margin;
+        margin = _;
+        return chart;
+    };
+
+    chart.width = function (_) {
+        if (!arguments.length) return width;
+        width = _;
+        innerWidth = width - margin.left - margin.right;
+        regionWidth = (width / 2) - margin.middle;
+        return chart;
+    };
+
+    chart.height = function (_) {
+        if (!arguments.length) return height;
+        height = _;
+        innerHeight = height - margin.top - margin.bottom;
+        return chart;
+    };
+
+    chart.xLeft = function (_) {
+        if (!arguments.length) return xLeftValue;
+        xLeftValue = _;
+        return chart;
+    };
+
+    chart.xRight = function (_) {
+        if (!arguments.length) return xRightValue;
+        xRightValue = _;
+        return chart;
+    };
+
+    chart.y = function (_) {
+        if (!arguments.length) return yValue;
+        yValue = _;
+        return chart;
+    };
+
+    return chart;
+}
