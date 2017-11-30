@@ -99,7 +99,12 @@ function genderChart(selection) {
             console.log("data", data);
             // DRAW BARS
             leftBars = leftBarGroup.selectAll('.bar.left')
-                .data(data);
+                .data(function (d) { return d; });
+            // .data(data);
+            console.log("leftBarGroup: ", leftBars.size());
+            console.log("leftBarGroup.enter(): ", leftBars.enter().size());
+            console.log("leftBarGroup.exit(): ", leftBars.exit().size());
+
             leftBars.enter().append('rect')
                 .attr('class', 'bar left')
                 .merge(leftBars)
@@ -110,9 +115,6 @@ function genderChart(selection) {
                 .attr('transform', translation(0, margin.top));
 
             // console.log("leftBarGroupEnter: ", leftBarGroupEnter.size());
-            console.log("leftBarGroup: ", leftBars.size());
-            console.log("leftBarGroup.enter(): ", leftBars.enter().size());
-            console.log("leftBarGroup.exit(): ", leftBars.exit().size());
 
 
             // leftBarGroup.selectAll("text")
@@ -126,7 +128,8 @@ function genderChart(selection) {
             //     .attr('style', 'font-size:10px;transform: scaleX(-1);-ms-transform:scaleX(-1);-moz-transform:scaleX(-1);-webkit-transform:scaleX(-1);-o-transform:scaleX(-1);');
 
             rightBarGroup.selectAll('.bar.right')
-                .data(data)
+                .data(function (d) { return d; })
+                // .data(data)
                 .enter().append('rect')
                 .attr('class', 'bar right')
                 .merge(rightBarGroup)

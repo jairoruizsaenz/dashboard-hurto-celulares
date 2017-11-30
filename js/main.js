@@ -30,6 +30,7 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         if (err) throw err;
 
         var csData = crossfilter(data);
+        var all = csData.groupAll();
 
         csData.dimBarrio = csData.dimension(function (d) { return d["BARRIO_2"]; });
         csData.dimArma = csData.dimension(function (d) { return d["ARMA EMPLEADA"]; });
@@ -98,8 +99,14 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
                 .attr("transform", "rotate(-90) translate(-10, -13)");
 
             d3.select("#gender")
-                .datum(csData.rangoEtario.all())
+                .datum(csData.rangoEtario.top(5))
                 .call(myGenderChart);
+
+            setTimeout(function () {
+                d3.select("#gender")
+                    .datum(csData.rangoEtario.all())
+                    .call(myGenderChart);
+            }, 8000);
         }
 
         update();
