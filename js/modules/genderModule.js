@@ -45,13 +45,23 @@ function genderChart(selection) {
     // .tickFormat('');
 
     function chart(selection) {
+        console.log("genderChart...");
+
+        console.log("selection update: ", selection.size());
+        console.log("selection enter: ", selection.enter().size());
+        console.log("selection exit: ", selection.exit().size());
+
         selection.each(function (data) {
 
             calcularMedidas();
-            console.log("data genderModule", data);
+
             // Select the svg element, if it exists.
             var svg = d3.select(this).selectAll("svg").data([data]);
 
+            console.log("svg update: ", svg.size());
+            console.log("svg enter: ", svg.enter().size());
+            console.log("svg exit: ", svg.exit().size());
+    
             // Otherwise, create the skeletal chart.
             var svgEnter = svg.enter().append("svg")
                 .attr("width", width)
@@ -92,47 +102,64 @@ function genderChart(selection) {
             // MAKE GROUPS FOR EACH SIDE OF CHART
             // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
             var leftBarGroup = svgEnter.append('g')
+                .attr('Jofre', 'Jofre2')
                 .attr('transform', translation(pointA, 0) + 'scale(-1, 1)');
             var rightBarGroup = svgEnter.append('g')
                 .attr('transform', translation(pointB, 0));
 
-            console.log("data", data);
-            // DRAW BARS
-            leftBars = leftBarGroup.selectAll('.bar.left')
-                .data(function (d) { return d; });
-            // .data(data);
-            console.log("leftBarGroup: ", leftBars.size());
-            console.log("leftBarGroup.enter(): ", leftBars.enter().size());
-            console.log("leftBarGroup.exit(): ", leftBars.exit().size());
+            tt = d3.selectAll("p")
+                .data(data);
+            console.log("update: ", tt.size());
+            console.log("enter: ", tt.enter().size());
+            console.log("exit: ", tt.exit().size());
+            tt
+                .enter()
+                .append("p")
+                .text(function (d) { return JSON.stringify(d); });
+            tt
+                .text(function (d) { return JSON.stringify(d) + d.value; })
+                .attr('style', 'color: #0000ff;');
+            tt.exit().remove();
 
-            leftBars.enter().append('rect')
+            console.log("leftBarGroup pre: ", leftBarGroup);
+            // DRAW BARS
+            kk = leftBarGroup.selectAll('.bar.left')
+                .data(data);
+            console.log("leftBarGroup pos: ", leftBarGroup);
+            console.log("kk: ", kk);
+            console.log("kk update: ", kk.size());
+            console.log("kk enter: ", kk.enter().size());
+            console.log("kk exit: ", kk.exit().size());
+            kk.enter().append('rect')
                 .attr('class', 'bar left')
-                .merge(leftBars)
                 .attr('x', 0)
                 .attr('y', function (d) { return Y(d); })
                 .attr('width', function (d) { return xScaleRight(xLeftValue(d)); })
                 .attr('height', yScale.bandwidth())
                 .attr('transform', translation(0, margin.top));
+            kk
+                .attr('class', 'bar left')
+                .attr('x', 0)
+                .attr('y', function (d) { return Y(d); })
+                .attr('width', function (d) { return xScaleRight(xLeftValue(d)); })
+                .attr('height', yScale.bandwidth())
+                .attr('transform', translation(0, margin.top));
+            kk.exit().remove();
 
-            // console.log("leftBarGroupEnter: ", leftBarGroupEnter.size());
-
-
-            // leftBarGroup.selectAll("text")
-            //     .attr('class', 'text_data')
-            //     .data(data)
-            //     .enter()
-            //     .append("text")
-            //     .attr('x', function (d) { return xScaleRight(-100 - xLeftValue(d)); })
-            //     .attr('y', function (d) { return Y(d) + margin.top + yScale.bandwidth() / 2 + 5; })
-            //     .text(function (d) { return xLeftValue(d); })
-            //     .attr('style', 'font-size:10px;transform: scaleX(-1);-ms-transform:scaleX(-1);-moz-transform:scaleX(-1);-webkit-transform:scaleX(-1);-o-transform:scaleX(-1);');
+            leftBarGroup.selectAll("text")
+                .attr('class', 'text_data')
+                .data(data)
+                .enter()
+                .append("text")
+                .attr('x', function (d) { return xScaleRight(-100 - xLeftValue(d)); })
+                .attr('y', function (d) { return Y(d) + margin.top + yScale.bandwidth() / 2 + 5; })
+                .text(function (d) { return xLeftValue(d); })
+                .attr('style', 'font-size:10px;transform: scaleX(-1);-ms-transform:scaleX(-1);-moz-transform:scaleX(-1);-webkit-transform:scaleX(-1);-o-transform:scaleX(-1);');
 
             rightBarGroup.selectAll('.bar.right')
-                .data(function (d) { return d; })
-                // .data(data)
+                .data(data)
                 .enter().append('rect')
                 .attr('class', 'bar right')
-                .merge(rightBarGroup)
                 .attr('x', 0)
                 .attr('y', function (d) { return Y(d); })
                 .attr('width', function (d) { return XRight(d); })
@@ -144,15 +171,11 @@ function genderChart(selection) {
                 .data(data)
                 .enter()
                 .append("text")
-                .merge(rightBarGroup)
                 .attr('x', function (d) { return XRight(d) + 5; })
                 .attr('y', function (d) { return Y(d) + yScale.bandwidth() / 2 + 5; })
                 .text(function (d) { return xRightValue(d) })
                 .attr('style', 'font-size:10px;')
                 .attr('transform', translation(0, margin.top));
-
-            leftBarGroup.exit().remove();
-            rightBarGroup.exit().remove();
             // END DRAW BARS
 
             // DRAW LEGEND
