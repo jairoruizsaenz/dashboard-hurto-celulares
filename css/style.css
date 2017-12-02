@@ -38,4 +38,6 @@ svg.barchart{
 .barchart .x.axis text{
     text-anchor: end;
 }
-
+.leftBarGroup .text_data{
+    text-anchor: end;
+}

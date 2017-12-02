@@ -45,7 +45,9 @@ function genderChart(selection) {
     // .tickFormat('');
 
     function chart(selection) {
+        console.log("**********");
         console.log("genderChart...");
+        console.log("**********");
 
         console.log("selection update: ", selection.size());
         console.log("selection enter: ", selection.enter().size());
@@ -61,7 +63,7 @@ function genderChart(selection) {
             console.log("svg update: ", svg.size());
             console.log("svg enter: ", svg.enter().size());
             console.log("svg exit: ", svg.exit().size());
-    
+
             // Otherwise, create the skeletal chart.
             var svgEnter = svg.enter().append("svg")
                 .attr("width", width)
@@ -102,9 +104,12 @@ function genderChart(selection) {
             // MAKE GROUPS FOR EACH SIDE OF CHART
             // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
             var leftBarGroup = svgEnter.append('g')
-                .attr('Jofre', 'Jofre2')
+                .attr('class', 'leftBarGroup');
+            leftBarGroup = d3.select(".leftBarGroup")
                 .attr('transform', translation(pointA, 0) + 'scale(-1, 1)');
             var rightBarGroup = svgEnter.append('g')
+                .attr('class', 'rightBarGroup');
+            rightBarGroup = d3.select(".rightBarGroup")
                 .attr('transform', translation(pointB, 0));
 
             tt = d3.selectAll("p")
@@ -122,10 +127,17 @@ function genderChart(selection) {
             tt.exit().remove();
 
             console.log("leftBarGroup pre: ", leftBarGroup);
+            console.log("leftBarGroup pre update: ", leftBarGroup.size());
+            console.log("leftBarGroup pre enter: ", leftBarGroup.enter().size());
+            console.log("leftBarGroup pre exit: ", leftBarGroup.exit().size());
             // DRAW BARS
             kk = leftBarGroup.selectAll('.bar.left')
                 .data(data);
             console.log("leftBarGroup pos: ", leftBarGroup);
+            console.log("leftBarGroup pos update: ", leftBarGroup.size());
+            console.log("leftBarGroup pos enter: ", leftBarGroup.enter().size());
+            console.log("leftBarGroup pos exit: ", leftBarGroup.exit().size());
+
             console.log("kk: ", kk);
             console.log("kk update: ", kk.size());
             console.log("kk enter: ", kk.enter().size());
@@ -146,36 +158,43 @@ function genderChart(selection) {
                 .attr('transform', translation(0, margin.top));
             kk.exit().remove();
 
-            leftBarGroup.selectAll("text")
+            kkk = leftBarGroup.selectAll("text")
                 .attr('class', 'text_data')
-                .data(data)
-                .enter()
+                .data(data);
+            kkk.enter()
                 .append("text")
+                .merge(kkk)
                 .attr('x', function (d) { return xScaleRight(-100 - xLeftValue(d)); })
                 .attr('y', function (d) { return Y(d) + margin.top + yScale.bandwidth() / 2 + 5; })
                 .text(function (d) { return xLeftValue(d); })
                 .attr('style', 'font-size:10px;transform: scaleX(-1);-ms-transform:scaleX(-1);-moz-transform:scaleX(-1);-webkit-transform:scaleX(-1);-o-transform:scaleX(-1);');
+            kkk.exit().remove();
 
-            rightBarGroup.selectAll('.bar.right')
-                .data(data)
-                .enter().append('rect')
+            rightBarGroup_bar = rightBarGroup.selectAll('.bar.right')
+                .data(data);
+            rightBarGroup_bar.enter().append('rect')
                 .attr('class', 'bar right')
+                .merge(rightBarGroup_bar)
                 .attr('x', 0)
                 .attr('y', function (d) { return Y(d); })
                 .attr('width', function (d) { return XRight(d); })
                 .attr('height', yScale.bandwidth())
                 .attr('transform', translation(0, margin.top));
 
-            rightBarGroup.selectAll("text")
+            rightBarGroup_bar.exit().remove();
+
+            rightBarGroup_text = rightBarGroup.selectAll("text")
                 .attr('class', 'text_data')
-                .data(data)
-                .enter()
+                .data(data);
+            rightBarGroup_text.enter()
                 .append("text")
+                .merge(rightBarGroup_text)
                 .attr('x', function (d) { return XRight(d) + 5; })
                 .attr('y', function (d) { return Y(d) + yScale.bandwidth() / 2 + 5; })
                 .text(function (d) { return xRightValue(d) })
                 .attr('style', 'font-size:10px;')
                 .attr('transform', translation(0, margin.top));
+            rightBarGroup_text.exit().remove();
             // END DRAW BARS
 
             // DRAW LEGEND
