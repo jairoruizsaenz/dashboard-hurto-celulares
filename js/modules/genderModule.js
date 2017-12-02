@@ -45,13 +45,6 @@ function genderChart(selection) {
     // .tickFormat('');
 
     function chart(selection) {
-        console.log("**********");
-        console.log("genderChart...");
-        console.log("**********");
-
-        console.log("selection update: ", selection.size());
-        console.log("selection enter: ", selection.enter().size());
-        console.log("selection exit: ", selection.exit().size());
 
         selection.each(function (data) {
 
@@ -59,10 +52,6 @@ function genderChart(selection) {
 
             // Select the svg element, if it exists.
             var svg = d3.select(this).selectAll("svg").data([data]);
-
-            console.log("svg update: ", svg.size());
-            console.log("svg enter: ", svg.enter().size());
-            console.log("svg exit: ", svg.exit().size());
 
             // Otherwise, create the skeletal chart.
             var svgEnter = svg.enter().append("svg")
@@ -112,63 +101,31 @@ function genderChart(selection) {
             rightBarGroup = d3.select(".rightBarGroup")
                 .attr('transform', translation(pointB, 0));
 
-            tt = d3.selectAll("p")
-                .data(data);
-            console.log("update: ", tt.size());
-            console.log("enter: ", tt.enter().size());
-            console.log("exit: ", tt.exit().size());
-            tt
-                .enter()
-                .append("p")
-                .text(function (d) { return JSON.stringify(d); });
-            tt
-                .text(function (d) { return JSON.stringify(d) + d.value; })
-                .attr('style', 'color: #0000ff;');
-            tt.exit().remove();
-
-            console.log("leftBarGroup pre: ", leftBarGroup);
-            console.log("leftBarGroup pre update: ", leftBarGroup.size());
-            console.log("leftBarGroup pre enter: ", leftBarGroup.enter().size());
-            console.log("leftBarGroup pre exit: ", leftBarGroup.exit().size());
             // DRAW BARS
-            kk = leftBarGroup.selectAll('.bar.left')
+            leftBarGroup_bar = leftBarGroup.selectAll('.bar.left')
                 .data(data);
-            console.log("leftBarGroup pos: ", leftBarGroup);
-            console.log("leftBarGroup pos update: ", leftBarGroup.size());
-            console.log("leftBarGroup pos enter: ", leftBarGroup.enter().size());
-            console.log("leftBarGroup pos exit: ", leftBarGroup.exit().size());
-
-            console.log("kk: ", kk);
-            console.log("kk update: ", kk.size());
-            console.log("kk enter: ", kk.enter().size());
-            console.log("kk exit: ", kk.exit().size());
-            kk.enter().append('rect')
+            leftBarGroup_bar.enter()
+                .append('rect')
                 .attr('class', 'bar left')
+                .merge(leftBarGroup_bar)
                 .attr('x', 0)
                 .attr('y', function (d) { return Y(d); })
                 .attr('width', function (d) { return xScaleRight(xLeftValue(d)); })
                 .attr('height', yScale.bandwidth())
                 .attr('transform', translation(0, margin.top));
-            kk
-                .attr('class', 'bar left')
-                .attr('x', 0)
-                .attr('y', function (d) { return Y(d); })
-                .attr('width', function (d) { return xScaleRight(xLeftValue(d)); })
-                .attr('height', yScale.bandwidth())
-                .attr('transform', translation(0, margin.top));
-            kk.exit().remove();
+            leftBarGroup_bar.exit().remove();
 
-            kkk = leftBarGroup.selectAll("text")
-                .attr('class', 'text_data')
+            leftBarGroup_text = leftBarGroup.selectAll("text")
                 .data(data);
-            kkk.enter()
+            leftBarGroup_text.enter()
                 .append("text")
-                .merge(kkk)
-                .attr('x', function (d) { return xScaleRight(-100 - xLeftValue(d)); })
+                .merge(leftBarGroup_text)
+                .attr('class', 'text_data')
+                .attr('x', function (d) { return xScaleRight(-xLeftValue(d)) - 5; })
                 .attr('y', function (d) { return Y(d) + margin.top + yScale.bandwidth() / 2 + 5; })
                 .text(function (d) { return xLeftValue(d); })
                 .attr('style', 'font-size:10px;transform: scaleX(-1);-ms-transform:scaleX(-1);-moz-transform:scaleX(-1);-webkit-transform:scaleX(-1);-o-transform:scaleX(-1);');
-            kkk.exit().remove();
+            leftBarGroup_text.exit().remove();
 
             rightBarGroup_bar = rightBarGroup.selectAll('.bar.right')
                 .data(data);
@@ -180,7 +137,6 @@ function genderChart(selection) {
                 .attr('width', function (d) { return XRight(d); })
                 .attr('height', yScale.bandwidth())
                 .attr('transform', translation(0, margin.top));
-
             rightBarGroup_bar.exit().remove();
 
             rightBarGroup_text = rightBarGroup.selectAll("text")
