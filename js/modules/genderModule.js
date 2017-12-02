@@ -9,6 +9,8 @@ function genderChart(selection) {
         xLeftValue = function (d) { return d[1]; },
         xRightValue = function (d) { return d[2]; },
         titleValue = "",
+        onMouseOver = function () { },
+        onMouseOut = function () { },
 
         xScale = d3.scaleLinear(),
         xScaleLeft = d3.scaleLinear(),
@@ -35,14 +37,10 @@ function genderChart(selection) {
     var xAxisRight = d3.axisBottom()
         .scale(xScaleRight)
         .ticks(5);
-    // .tickFormat('');
 
     var xAxisLeft = d3.axisBottom()
-        // REVERSE THE X-AXIS SCALE ON THE LEFT SIDE BY REVERSING THE RANGE
-        // .scale(xScale.copy().range([pointA, 0]))
         .scale(xScaleLeft)
         .ticks(5);
-    // .tickFormat('');
 
     function chart(selection) {
 
@@ -65,6 +63,25 @@ function genderChart(selection) {
                 .domain([0, d3.max(data, function (d) { return d3.max([xLeftValue(d), xRightValue(d)]); }) * 1.15]);
             xScaleRight.range([0, regionWidth])
                 .domain([0, d3.max(data, function (d) { return d3.max([xLeftValue(d), xRightValue(d)]); }) * 1.15]);
+
+            // SET UP AXES
+            yAxisLeft
+                .scale(yScale)
+                .tickSize(4, 0)
+                .tickPadding(margin.middle - 4);
+
+            yAxisRight
+                .scale(yScale)
+                .tickSize(4, 0)
+                .tickFormat('');
+
+            xAxisRight
+                .scale(xScaleRight)
+                .ticks(5);
+
+            xAxisLeft
+                .scale(xScaleLeft)
+                .ticks(5);
 
             // DRAW AXES
             svgEnter.append('g')
@@ -91,7 +108,6 @@ function genderChart(selection) {
             // END DRAW AXES
 
             // MAKE GROUPS FOR EACH SIDE OF CHART
-            // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
             var leftBarGroup = svgEnter.append('g')
                 .attr('class', 'leftBarGroup');
             leftBarGroup = d3.select(".leftBarGroup")
@@ -112,7 +128,9 @@ function genderChart(selection) {
                 .attr('y', function (d) { return Y(d); })
                 .attr('width', function (d) { return xScaleRight(xLeftValue(d)); })
                 .attr('height', yScale.bandwidth())
-                .attr('transform', translation(0, margin.top));
+                .attr('transform', translation(0, margin.top))
+                .on("mouseover", onMouseOver)
+                .on("mouseout", onMouseOut);
             leftBarGroup_bar.exit().remove();
 
             leftBarGroup_text = leftBarGroup.selectAll("text")
@@ -264,6 +282,18 @@ function genderChart(selection) {
     chart.title = function (_) {
         if (!arguments.length) return titleValue;
         titleValue = _;
+        return chart;
+    };
+
+    chart.onMouseOver = function (_) {
+        if (!arguments.length) return onMouseOver;
+        onMouseOver = _;
+        return chart;
+    };
+
+    chart.onMouseOut = function (_) {
+        if (!arguments.length) return onMouseOut;
+        onMouseOut = _;
         return chart;
     };
 
