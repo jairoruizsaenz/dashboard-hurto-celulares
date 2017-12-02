@@ -71,12 +71,12 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         });
 
         myGenderChart.onMouseOver(function (d) {
-            console.log("onMouseOver", d);
+            // console.log("onMouseOver", d);
             csData.dimRangoEtario.filter(d.key);
             update();
         });
         myGenderChart.onMouseOut(function (d) {
-            console.log("onMouseOut", d);
+            // console.log("onMouseOut", d);
             csData.dimRangoEtario.filterAll();
             update();
         });

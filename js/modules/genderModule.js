@@ -24,23 +24,10 @@ function genderChart(selection) {
         pointB = 0;
 
     // SET UP AXES
-    var yAxisLeft = d3.axisRight()
-        .scale(yScale)
-        .tickSize(4, 0)
-        .tickPadding(margin.middle - 4);
-
-    var yAxisRight = d3.axisLeft()
-        .scale(yScale)
-        .tickSize(4, 0)
-        .tickFormat('');
-
-    var xAxisRight = d3.axisBottom()
-        .scale(xScaleRight)
-        .ticks(5);
-
-    var xAxisLeft = d3.axisBottom()
-        .scale(xScaleLeft)
-        .ticks(5);
+    var yAxisLeft = d3.axisRight();
+    var yAxisRight = d3.axisLeft();
+    var xAxisRight = d3.axisBottom();
+    var xAxisLeft = d3.axisBottom();
 
     function chart(selection) {
 
@@ -85,24 +72,28 @@ function genderChart(selection) {
 
             // DRAW AXES
             svgEnter.append('g')
-                .attr('class', 'axis y left')
+                .attr('class', 'axis y left');
+            d3.select('.axis.y.left')
                 .attr('transform', translation(pointA, margin.top))
                 .call(yAxisLeft)
                 .selectAll('text')
                 .style('text-anchor', 'middle');
 
             svgEnter.append('g')
-                .attr('class', 'axis y right')
+                .attr('class', 'axis y right');
+            d3.select('.axis.y.right')
                 .attr('transform', translation(pointB - 1, margin.top))
                 .call(yAxisRight);
 
             svgEnter.append('g')
-                .attr('class', 'axis x left')
+                .attr('class', 'axis x left');
+            d3.select('.axis.x.left')
                 .attr('transform', translation(margin.left, innerHeight + margin.top))
                 .call(xAxisLeft);
 
             svgEnter.append('g')
-                .attr('class', 'axis x right')
+                .attr('class', 'axis x right');
+            d3.select('.axis.x.right')
                 .attr('transform', translation(pointB, innerHeight + margin.top))
                 .call(xAxisRight);
             // END DRAW AXES

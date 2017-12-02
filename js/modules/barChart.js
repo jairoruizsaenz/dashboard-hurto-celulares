@@ -17,7 +17,7 @@ function barChart(selection) {
 
   function chart(selection) {
     selection.each(function (data) {
-      console.log("data barChartModule", data);
+      // console.log("data barChartModule", data);
       // Select the svg element, if it exists.
       var svg = d3.select(this).selectAll("svg").data([data]);
 
