@@ -64,7 +64,7 @@ function genderChart(selection) {
 
             xAxisRight
                 .scale(xScaleRight)
-                .ticks(5);
+                .ticks(4);
 
             xAxisLeft
                 .scale(xScaleLeft)

@@ -1,13 +1,13 @@
 /* global d3, barChart, genderChart, scatterPlot*/
 
 var barrioBarChart = barChart()
-    .width(500)
+    .width(400)
     .height(300)
     .x(function (d) { return d.key; })
     .y(function (d) { return +d.value; });
 
 var armaBarChart = barChart()
-    .width(500)
+    .width(300)
     .height(300)
     .x(function (d) { return d.key; })
     .y(function (d) { return +d.value; });
@@ -30,14 +30,18 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         if (err) throw err;
 
         var csData = crossfilter(data);
-        var all = csData.groupAll();
+        // var all = csData.groupAll();
 
         csData.dimBarrio = csData.dimension(function (d) { return d["BARRIO_2"]; });
         csData.dimArma = csData.dimension(function (d) { return d["ARMA EMPLEADA"]; });
         csData.dimMovilVictima = csData.dimension(function (d) { return d["MOVIL VICTIMA"]; });
         csData.dimMovilAgresor = csData.dimension(function (d) { return d["MOVIL AGRESOR"]; });
         csData.dimRangoEtario = csData.dimension(function (d) { return d["RANGO_ETARIO"]; });
+        // csData.dimGenero = csData.bisect.by(function (d) { return d["GENERO"]; });
         csData.dimAnho = csData.dimension(function (d) { return d["ANHO"]; });
+
+        // GENERO: [MASCULINO|FEMENINO]
+        // bisectByFoo = crossfilter.bisect.by(function (d) { return d["GENERO"]; });
 
         csData.barrio = csData.dimBarrio.group();
         csData.arma = csData.dimArma.group();
@@ -86,7 +90,7 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         // csData.dimBarrio.fiter();
         function update() {
             d3.select("#barrioBarChart")
-                .datum(csData.barrio.top(50))
+                .datum(csData.barrio.top(20))
                 // .datum(csData.barrio.all())
                 .call(barrioBarChart)
                 .select(".x.axis")
