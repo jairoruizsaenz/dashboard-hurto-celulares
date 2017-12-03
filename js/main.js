@@ -1,5 +1,10 @@
 /* global d3, barChart, genderChart, scatterPlot*/
 
+var myButtonControl = buttonControl()
+    .width(400)
+    .height(50)
+    .x(function (d) { return d.key; });
+
 var barrioBarChart = barChart()
     .width(400)
     .height(300)
@@ -30,15 +35,16 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         if (err) throw err;
 
         var csData = crossfilter(data);
-        // var all = csData.groupAll();
+        all = csData.groupAll();
 
         csData.dimBarrio = csData.dimension(function (d) { return d["BARRIO_2"]; });
         csData.dimArma = csData.dimension(function (d) { return d["ARMA EMPLEADA"]; });
         csData.dimMovilVictima = csData.dimension(function (d) { return d["MOVIL VICTIMA"]; });
         csData.dimMovilAgresor = csData.dimension(function (d) { return d["MOVIL AGRESOR"]; });
         csData.dimRangoEtario = csData.dimension(function (d) { return d["RANGO_ETARIO"]; });
-        // csData.dimGenero = csData.bisect.by(function (d) { return d["GENERO"]; });
-        csData.dimAnho = csData.dimension(function (d) { return d["ANHO"]; });
+        csData.dimGenero = csData.dimension(function (d) { return d["GENERO"]; });
+        // csData.dimTimestamp = csData.dimension(function (d) { return d["TIMESTAMP"]; });
+        csData.dimDia = csData.dimension(function (d) { return d["DIA"]; });
 
         // GENERO: [MASCULINO|FEMENINO]
         // bisectByFoo = crossfilter.bisect.by(function (d) { return d["GENERO"]; });
@@ -48,40 +54,42 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         csData.movilVictima = csData.dimMovilVictima.group();
         csData.movilAgresor = csData.dimMovilAgresor.group();
         csData.rangoEtario = csData.dimRangoEtario.group();
-        csData.anho = csData.dimAnho.group();
+        // csData.timestamp = csData.dimTimestamp.group();
+        csData.dia = csData.dimDia.group();
 
         barrioBarChart.onMouseOver(function (d) {
-            // console.log("barrioBarChart.onMouseOver");
-            // console.log(d);
             csData.dimBarrio.filter(d.key);
             update();
         });
         barrioBarChart.onMouseOut(function (d) {
-            // console.log("barrioBarChart.onMouseOut");
             csData.dimBarrio.filterAll();
             update();
         });
 
         armaBarChart.onMouseOver(function (d) {
-            // console.log("armaBarChart.onMouseOver");
-            // console.log(d);
             csData.dimArma.filter(d.key);
             update();
         });
         armaBarChart.onMouseOut(function (d) {
-            // console.log("armaBarChart.onMouseOut");
             csData.dimArma.filterAll();
             update();
         });
 
         myGenderChart.onMouseOver(function (d) {
-            // console.log("onMouseOver", d);
             csData.dimRangoEtario.filter(d.key);
             update();
         });
         myGenderChart.onMouseOut(function (d) {
-            // console.log("onMouseOut", d);
             csData.dimRangoEtario.filterAll();
+            update();
+        });
+
+        myButtonControl.onMouseOver(function (d) {
+            csData.dimDia.filter(d.key);
+            update();
+        });
+        myButtonControl.onMouseOut(function (d) {
+            csData.dimDia.filterAll();
             update();
         });
 
@@ -89,17 +97,19 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
 
         // csData.dimBarrio.fiter();
         function update() {
+            d3.select("#buttons")
+                .datum(csData.dia.all())
+                .call(myButtonControl);
+
             d3.select("#barrioBarChart")
                 .datum(csData.barrio.top(20))
-                // .datum(csData.barrio.all())
                 .call(barrioBarChart)
                 .select(".x.axis")
                 .selectAll(".tick text")
                 .attr("transform", "rotate(-90) translate(-10, -13)");
 
-            // console.log("csData.arma.all()", csData.arma.all());
             d3.select("#armaBarChart")
-                .datum(csData.arma.top(20))
+                .datum(csData.arma.top(Infinity))
                 .call(armaBarChart)
                 .select(".x.axis")
                 .selectAll(".tick text")
@@ -108,16 +118,6 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
             d3.select("#gender")
                 .datum(csData.rangoEtario.all())
                 .call(myGenderChart);
-
-            // d3.select("#gender")
-            //     .datum(csData.rangoEtario.top(3))
-            //     .call(myGenderChart);
-
-            // setTimeout(function () {
-            //     d3.select("#gender")
-            //         .datum(csData.rangoEtario.all())
-            //         .call(myGenderChart);
-            // }, 4000);
         }
 
         update();

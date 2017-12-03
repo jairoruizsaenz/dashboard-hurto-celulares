@@ -41,3 +41,12 @@ svg.barchart{
 .leftBarGroup .text_data{
     text-anchor: end;
 }
+
+.buttonControl text.btn{
+    fill:black;
+}
+
+.buttonControl text.btn:hover{
+    fill:blue;
+    cursor: pointer;
+}
