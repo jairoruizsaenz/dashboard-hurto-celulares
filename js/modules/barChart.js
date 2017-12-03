@@ -14,7 +14,6 @@ function barChart(selection) {
     onMouseOver = function () { },
     onMouseOut = function () { };
 
-
   function chart(selection) {
     selection.each(function (data) {
       // console.log("data barChartModule", data);

@@ -31,15 +31,23 @@ var armaBarChart = barChart()
 var myGenderChart = genderChart()
     .width(400)
     .height(300)
-    .xLeft(function (d) { return +d.value; })
-    .xRight(function (d) { return +d.value; })
-    .y(function (d) { return d.key; });
+    //.xLeft(function (d) { return +d.value; })
+    .xLeft(function (d) { 
+        var string = d.key;
+        if (string.includes("FEMENINO")) return +d.value;    
+    })
+    //.xRight(function (d) { return +d.value; })
+    .xRight(function (d) { 
+        var string = d.key;
+        if (string.includes("MASCULINO")) return +d.value;    
+    })
+    .y(function (d) { return d.key.slice(0, 8); });
 
-var myScatterPlot = scatterPlot()
+/* var myScatterPlot = scatterPlot()
     .width(500)
     .height(300)
     .x(function (d) { return d.Barrio2; })
-    .y(function (d) { return +d["2016"]; });
+    .y(function (d) { return +d["2016"]; }); */
 
 function sortByDay(a, b) {
     var day1 = a.key.toLowerCase();
@@ -58,7 +66,7 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         csData.dimArma = csData.dimension(function (d) { return d["ARMA EMPLEADA"]; });
         csData.dimMovilVictima = csData.dimension(function (d) { return d["MOVIL VICTIMA"]; });
         csData.dimMovilAgresor = csData.dimension(function (d) { return d["MOVIL AGRESOR"]; });
-        csData.dimRangoEtario = csData.dimension(function (d) { return d["RANGO_ETARIO"]; });
+        csData.dimRangoEtario = csData.dimension(function (d) { return d["RANGO_ETARIO"] + ' | ' + d["GENERO"]; });
         csData.dimGenero = csData.dimension(function (d) { return d["GENERO"]; });
         // csData.dimTimestamp = csData.dimension(function (d) { return d["TIMESTAMP"]; });
         csData.dimDia = csData.dimension(function (d) { return d["DIA"]; });
@@ -71,7 +79,8 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         csData.movilVictima = csData.dimMovilVictima.group();
         csData.movilAgresor = csData.dimMovilAgresor.group();
         csData.rangoEtario = csData.dimRangoEtario.group();
-        // csData.timestamp = csData.dimTimestamp.group();
+        csData.genero = csData.dimGenero.group();    
+        // csData.timestamp = csData.dimTimestamp.group();            
         csData.dia = csData.dimDia.group().order(function (d) {
             console.log(d);
             return d.key;

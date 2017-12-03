@@ -14,13 +14,13 @@ div{
 	fill: rgb(255, 145, 229);
 }
 .bar.left:hover {
-	fill: green;
+	fill: brown;
 }
 .bar.right {
 	fill: rgb(83, 145, 238);
 }
 .bar.right:hover {
-	fill: green;
+	fill: brown;
 }
 .axis--x path {
     /* display: none; */

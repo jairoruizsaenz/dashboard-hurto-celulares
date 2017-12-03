@@ -145,7 +145,9 @@ function genderChart(selection) {
                 .attr('y', function (d) { return Y(d); })
                 .attr('width', function (d) { return XRight(d); })
                 .attr('height', yScale.bandwidth())
-                .attr('transform', translation(0, margin.top));
+                .attr('transform', translation(0, margin.top))
+                .on("mouseover", onMouseOver)
+                .on("mouseout", onMouseOut);;
             rightBarGroup_bar.exit().remove();
 
             rightBarGroup_text = rightBarGroup.selectAll("text")
