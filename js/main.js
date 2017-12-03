@@ -1,5 +1,16 @@
 /* global d3, barChart, genderChart, scatterPlot*/
 
+var sorterWeekDay = {
+    // "sunday": 0, // << if sunday is first day of week
+    "lunes": 1,
+    "martes": 2,
+    "miércoles": 3,
+    "jueves": 4,
+    "viernes": 5,
+    "sábado": 6,
+    "domingo": 7
+}
+
 var myButtonControl = buttonControl()
     .width(400)
     .height(50)
@@ -30,11 +41,17 @@ var myScatterPlot = scatterPlot()
     .x(function (d) { return d.Barrio2; })
     .y(function (d) { return +d["2016"]; });
 
+function sortByDay(a, b) {
+    var day1 = a.key.toLowerCase();
+    var day2 = b.key.toLowerCase();
+    return sorterWeekDay[day1] > sorterWeekDay[day2];
+}
+
 d3.tsv("data/Hurto celulares - Bogota_4.tsv",
     function (err, data) {
         if (err) throw err;
 
-        var csData = crossfilter(data);
+        csData = crossfilter(data);
         all = csData.groupAll();
 
         csData.dimBarrio = csData.dimension(function (d) { return d["BARRIO_2"]; });
@@ -55,7 +72,10 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         csData.movilAgresor = csData.dimMovilAgresor.group();
         csData.rangoEtario = csData.dimRangoEtario.group();
         // csData.timestamp = csData.dimTimestamp.group();
-        csData.dia = csData.dimDia.group();
+        csData.dia = csData.dimDia.group().order(function (d) {
+            console.log(d);
+            return d.key;
+        });
 
         barrioBarChart.onMouseOver(function (d) {
             csData.dimBarrio.filter(d.key);
@@ -98,7 +118,8 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         // csData.dimBarrio.fiter();
         function update() {
             d3.select("#buttons")
-                .datum(csData.dia.all())
+                // .datum(csData.dia.all())
+                .datum(csData.dia.all().sort(function (a, b) { return sortByDay(a, b); }))
                 .call(myButtonControl);
 
             d3.select("#barrioBarChart")
