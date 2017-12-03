@@ -34,12 +34,13 @@ var myGenderChart = genderChart()
     //.xLeft(function (d) { return +d.value; })
     .xLeft(function (d) { 
         var string = d.key;
-        if (string.includes("FEMENINO")) return +d.value;    
+        return (string.includes("FEMENINO")) ? +d.value : 0;
+        //return o.source.Nombre == d.Nombre || o.target.Nombre == d.Nombre ? highlight_stroke_opacity : highlight_trans;});
     })
     //.xRight(function (d) { return +d.value; })
     .xRight(function (d) { 
         var string = d.key;
-        if (string.includes("MASCULINO")) return +d.value;    
+        return (string.includes("MASCULINO")) ? +d.value : 0;    
     })
     .y(function (d) { return d.key.slice(0, 8); });
 
