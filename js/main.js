@@ -1,4 +1,11 @@
-/* global d3, barChart, genderChart, scatterPlot*/
+/* global d3, barChart, genderChart, scatterPlot, csData*/
+
+// http://bl.ocks.org/boeric/7d11226f5e1235cbe645
+// https://bl.ocks.org/micahstubbs/66db7c01723983ff028584b6f304a54a
+
+d3.tsv("data/Hurto celulares - Bogota_4.tsv",
+    function (err, data) {
+        if (err) throw err;
 
 var sorterWeekDay = {
     // "sunday": 0, // << if sunday is first day of week
@@ -32,15 +39,15 @@ var myGenderChart = genderChart()
     .width(400)
     .height(300)
     //.xLeft(function (d) { return +d.value; })
-    .xLeft(function (d) { 
+    .xLeft(function (d) {
         var string = d.key;
         return (string.includes("FEMENINO")) ? +d.value : 0;
         //return o.source.Nombre == d.Nombre || o.target.Nombre == d.Nombre ? highlight_stroke_opacity : highlight_trans;});
     })
     //.xRight(function (d) { return +d.value; })
-    .xRight(function (d) { 
+    .xRight(function (d) {
         var string = d.key;
-        return (string.includes("MASCULINO")) ? +d.value : 0;    
+        return (string.includes("MASCULINO")) ? +d.value : 0;
     })
     .y(function (d) { return d.key.slice(0, 8); });
 
@@ -56,9 +63,7 @@ function sortByDay(a, b) {
     return sorterWeekDay[day1] > sorterWeekDay[day2];
 }
 
-d3.tsv("data/Hurto celulares - Bogota_4.tsv",
-    function (err, data) {
-        if (err) throw err;
+
 
         csData = crossfilter(data);
         all = csData.groupAll();
@@ -80,12 +85,15 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
         csData.movilVictima = csData.dimMovilVictima.group();
         csData.movilAgresor = csData.dimMovilAgresor.group();
         csData.rangoEtario = csData.dimRangoEtario.group();
-        csData.genero = csData.dimGenero.group();    
-        // csData.timestamp = csData.dimTimestamp.group();            
+        //csData.genero = csData.dimGenero.group();
+        // csData.timestamp = csData.dimTimestamp.group();
         csData.dia = csData.dimDia.group().order(function (d) {
             console.log(d);
             return d.key;
         });
+
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::
 
         barrioBarChart.onMouseOver(function (d) {
             csData.dimBarrio.filter(d.key);
@@ -96,14 +104,37 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
             update();
         });
 
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::
+
         armaBarChart.onMouseOver(function (d) {
-            csData.dimArma.filter(d.key);
-            update();
+            //csData.dimArma.filter(d.key);
+            console.log(d3.select(this).attr("class"));
+            //update();
         });
         armaBarChart.onMouseOut(function (d) {
-            csData.dimArma.filterAll();
+            //csData.dimArma.filterAll();
+            //update();
+        });
+
+        armaBarChart.onMouseClick(function (d) {
+            
+            if (d3.select(this).attr("class") === "clicked"){
+                d3.select(this).attr("class", "bar");
+                //d3.select(this).style("fill", "green");
+            }else{            
+                d3.select(this).attr("class", "clicked");
+                csData.dimArma.filter(d.key);
+            }            
+            console.log(d3.select(this).attr("class"));
+            
+            //csData.dimArma.filter(d.key);
+            //console.log(csData.dimArma.top(1));
             update();
         });
+    
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::
 
         myGenderChart.onMouseOver(function (d) {
             csData.dimRangoEtario.filter(d.key);
@@ -113,6 +144,9 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
             csData.dimRangoEtario.filterAll();
             update();
         });
+    
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::
 
         myButtonControl.onMouseOver(function (d) {
             csData.dimDia.filter(d.key);

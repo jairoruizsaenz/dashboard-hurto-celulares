@@ -2,11 +2,12 @@
 div{
     float: left;
 }
-
+.clicked {
+    fill: brown;
+}
 .bar {
     fill: steelblue;
 }
-
 .bar:hover {
     fill: brown;
 }
