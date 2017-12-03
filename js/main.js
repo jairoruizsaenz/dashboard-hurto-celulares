@@ -130,7 +130,7 @@ function sortByDay(a, b) {
             
             //csData.dimArma.filter(d.key);
             //console.log(csData.dimArma.top(1));
-            update();
+            //update();
         });
     
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::
