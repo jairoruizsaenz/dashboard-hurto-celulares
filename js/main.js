@@ -67,7 +67,7 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
                 var string = d.key;
                 return (string.includes("MASCULINO")) ? +d.value : 0;
             })
-            .y(function (d) { return d.key.slice(0, 8); });
+            .y(function (d) { return d.key.slice(0, 10); });
 
         /* var myScatterPlot = scatterPlot()
             .width(500)
@@ -88,7 +88,7 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
                 csData.dimArma = csData.dimension(function (d) { return d["ARMA EMPLEADA"]; });
                 csData.dimMovilVictima = csData.dimension(function (d) { return d["MOVIL VICTIMA"]; });
                 csData.dimMovilAgresor = csData.dimension(function (d) { return d["MOVIL AGRESOR"]; });
-                csData.dimRangoEtario = csData.dimension(function (d) { return d["RANGO_ETARIO"] + ' | ' + d["GENERO"]; });
+                csData.dimRangoEtario = csData.dimension(function (d) { return d["RANGO_ETARIO"] + '   | ' + d["GENERO"]; });
                 csData.dimGenero = csData.dimension(function (d) { return d["GENERO"]; });
                 // csData.dimTimestamp = csData.dimension(function (d) { return d["TIMESTAMP"]; });
                 csData.dimDia = csData.dimension(function (d) { return d["DIA"]; });
