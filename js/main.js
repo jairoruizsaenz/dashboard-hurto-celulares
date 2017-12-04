@@ -125,6 +125,7 @@ d3.tsv("data/Hurto celulares - Bogota_4.tsv",
                 if(filtro_dinamico){
                         
                     csData.dimArma.filterAll();
+                    d3.selectAll('rect').attr('style','fill:;')
                     
                     armaBarChart.onMouseOver(function (d) {
                         csData.dimArma.filter(d.key);                
