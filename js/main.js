@@ -54,6 +54,7 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
         var armaSelected = [];
         var barrioSelected = [];
         var genderSelected = [];
+        var armaMovilSelected = [];
 
         function sortByKey(a, b) {
             var key1 = a.key.toLowerCase();
@@ -159,7 +160,7 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                 d3.selectAll('rect').attr('style', 'fill:;')
 
             //-----------------------------------------------------                                
-                
+                //Arma Empleada
                 armaBarChart.onMouseOver(function (d) {
                     csData.dimArma.filter(d.key);
                     update();
@@ -171,7 +172,7 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                 });
                 
             //-----------------------------------------------------                
-                
+                //Barrio
                 barrioBarChart.onMouseOver(function (d) {
                     csData.dimBarrio.filter(d.key);
                     update();
@@ -183,7 +184,7 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                 });
                 
             //-----------------------------------------------------                
-                
+                //Género
                 myGenderChart.onMouseOver(function (d) {
                     csData.dimRangoEtario.filter(d.key);
                     update();
@@ -194,8 +195,19 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                     update();
                 });
                 
+            //-----------------------------------------------------                
+                //HeatMap
+                myHeatMap.onMouseOver(function (d) {
+                    csData.dimArmaMovil.filter(d.key);
+                    update();
+                });
+                myHeatMap.onMouseOut(function (d) {
+                    csData.dimArmaMovil.filterAll();
+                    update();
+                });
+                
             } else { //filtro_dinamico = false
-
+                //Arma Empleada - OnClick
                 armaBarChart.onMouseClick(function (d) {
 
                     if (d3.select(this).style("fill") === "brown") {
@@ -211,7 +223,7 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                 });
                 
             //-----------------------------------------------------                                
-                
+                //Barrio - OnClick
                 barrioBarChart.onMouseClick(function (d) {
 
                     if (d3.select(this).style("fill") === "brown") {
@@ -227,7 +239,7 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                 });
                 
             //-----------------------------------------------------                                
-                
+                //Género - OnClick
                 myGenderChart.onMouseClick(function (d) {
 
                     if (d3.select(this).style("fill") === "brown") {
@@ -242,12 +254,25 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                     update();
                 });
                 
+            //-----------------------------------------------------                                
+                //HeatMap - OnClick
+                myHeatMap.onMouseClick(function (d) {
+     
+                    if (d3.select(this).style("stroke") === "brown") {
+                        d3.select(this).style("stroke", "");
+                        d3.select(this).style("stroke-width", 0);
+                        armaMovilSelected.splice(armaMovilSelected.indexOf(d.key), 1);
+                    } else {
+                        d3.select(this).style("stroke", "brown");
+                        d3.select(this).style("stroke-width", 2);
+                        armaMovilSelected.push(d.key);
+                    }
+
+                    myHeatMap_onClickFilter();
+                    update();
+                });
             }
-            
-            //:::::::::::::::::::::::::::::::::::::::::::::::::::::
-            
-            
-            
+                        
             //:::::::::::::::::::::::::::::::::::::::::::::::::::::
             
             weekButtonControl.onMouseOver(function (d) {
@@ -271,17 +296,6 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                 update();
             });
                         
-            //:::::::::::::::::::::::::::::::::::::::::::::::::::::
-            
-            myHeatMap.onMouseOver(function (d) {
-                csData.dimArmaMovil.filter(d.key);
-                update();
-            });
-            myHeatMap.onMouseOut(function (d) {
-                csData.dimArmaMovil.filterAll();
-                update();
-            });
-            
             //:::::::::::::::::::::::::::::::::::::::::::::::::::::
             
             function armaBarChart_onClickFilter() {
@@ -329,6 +343,23 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                 for (i = 0; i < genderSelected.length; i++) { console.log(genderSelected[i]); }
                 console.log("---------------------------------");
             }
+                                       
+            //-----------------------------------------------------
+                                    
+            function myHeatMap_onClickFilter() {
+
+                var string = "";
+                for (i = 0; i < armaMovilSelected.length; i++) { string = string + " | " + armaMovilSelected[i]; }
+                csData.dimArmaMovil.filter(function (d) { return (string.includes(d)) ? true : false; });
+                if (armaMovilSelected.length === 0) { csData.dimArmaMovil.filterAll(); }
+
+                console.log("---------------------------------");
+                console.log("armaMovilSelected string: " + string);
+                console.log("armaMovilSelected size: " + armaMovilSelected.length);
+                for (i = 0; i < armaMovilSelected.length; i++) { console.log(armaMovilSelected[i]); }
+                console.log("---------------------------------");
+            }
+            
             //:::::::::::::::::::::::::::::::::::::::::::::::::::::
             
             function update() {
