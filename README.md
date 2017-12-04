@@ -7,6 +7,8 @@ más se presenta este delito, desconociendo variables de tiempo, modo y frecuenc
 información y la poca divulgación por parte de las autoridades. Con datos oficiales de los hurtos a celular reportados entre los años
 2010 a 2016 se propone una visualización tipo dashboard que permita presentar y descubrir insights que sean de uso público.
 
+Desarrollado por [Jairo Ruiz Saenz](https://github.com/jairoruizsaenz) y [Jofre Manchola](https://github.com/jofremanchola)
+
 Te invito a interactuar con la visualización, Visita el Demo [aquí](https://jairoruizsaenz.github.io/dashboard-hurto-celulares/).
 
 [!["gif de la aplicación real"](img/Animación.gif)](https://jairoruizsaenz.github.io/dashboard-hurto-celulares/)
