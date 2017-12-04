@@ -2,7 +2,7 @@
 
 function heatMap(selection) {
   var
-    margin = { top: 150, right: 0, bottom: 50, left: 150 },
+    margin = { top: 80, right: 0, bottom: 130, left: 150 },
     width = 400 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom,
     gridSize = Math.floor(width / 13),
@@ -10,7 +10,7 @@ function heatMap(selection) {
     buckets = 7,
     //colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
     //colors = ["#edf8fb","#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#6e016b"]
-    colors = ["#ffffcc","#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#0c2c84"]
+    colors = ["#ffffcc","#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#0c2c84"],
     days = ["ARMA BLANCA","ARMA DE FUEGO","CONTUNDENTES","CORTANTES","ESCOPOLAMINA","JERINGA","PERRO","SIN EMPLEO DE ARMAS","NO REPORTADO"],
     times = ["A PIE","BICI","C-BUS","C-MOTO","C-TAXI","C-VEH","P-BUS","P-METRO","P-MOTO","P-TAXI","P-VEH","VEHICULO","NO REPORTA"],
     datasets = [],

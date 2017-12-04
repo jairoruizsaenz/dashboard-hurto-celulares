@@ -5,27 +5,31 @@ div{
 .clicked {
     fill: brown;
 }
-.hour:hover {    
+.hour:hover {
     stroke: brown;
     stroke-width: 2;
+    cursor: pointer;
 }
 .bar {
     fill: steelblue;
 }
 .bar:hover {
     fill: brown;
+    cursor: pointer;
 }
 .bar.left {
 	fill: rgb(255, 145, 229);
 }
 .bar.left:hover {
-	fill: brown;
+    fill: brown;
+    cursor: pointer;
 }
 .bar.right {
 	fill: rgb(83, 145, 238);
 }
 .bar.right:hover {
-	fill: brown;
+    fill: brown;
+    cursor: pointer;
 }
 .axis--x path {
     /* display: none; */
@@ -51,8 +55,12 @@ svg.barchart{
     fill:black;
 }
 
+.buttonControl text.btn.selected{
+    stroke:brown;
+}
+
 .buttonControl text.btn:hover{
-    fill:blue;
+    fill:brown;
     cursor: pointer;
 }
 input[type=checkbox]
@@ -71,7 +79,7 @@ input[type=checkbox]
 .clear{
     clear: both;
     width: 100%;
-    height: 100px;
+    /* height: 100px; */
 }
 .reset {
     padding-left: 1em;
@@ -82,4 +90,7 @@ path:hover {
     opacity: 1.0;
     stroke-width: 2;
     /* stroke:red; */
+}
+.filter_text{
+    font-size: 10px;
 }

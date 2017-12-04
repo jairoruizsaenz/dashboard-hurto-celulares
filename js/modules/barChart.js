@@ -68,11 +68,13 @@ function barChart(selection) {
         .attr("x", X)
         .attr("y", Y)
         .attr("width", xScale.bandwidth())
-        .attr("height", function (d) { return innerHeight - Y(d); })        
+        .attr("height", function (d) { return innerHeight - Y(d); })                
         .on("mouseover", onMouseOver)
         .on("mouseout", onMouseOut)
-        .on("click", onMouseClick);
-        
+        .on("click", onMouseClick)
+        .append("svg:title")
+          .text(function(d) { return d.value; });
+            
       bars.exit().remove();
     });
 
