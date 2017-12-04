@@ -8,6 +8,7 @@ div{
 .bar {
     fill: steelblue;
 }
+
 .bar:hover {
     fill: brown;
 }
@@ -63,4 +64,9 @@ input[type=checkbox]
 }
 .interactiveObject{
     margin-right: 15px;
+}
+.clear{
+    clear: both;
+    width: 100%;
+    height: 100px;
 }
