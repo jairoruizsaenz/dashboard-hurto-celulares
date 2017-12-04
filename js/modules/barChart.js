@@ -57,7 +57,7 @@ function barChart(selection) {
         .style("fill","black")
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
-        .text("Número de eventos reportados");
+        .text("Cantidad de eventos reportados");
 
       var bars = g.selectAll(".bar")
         .data(function (d) { return d; });

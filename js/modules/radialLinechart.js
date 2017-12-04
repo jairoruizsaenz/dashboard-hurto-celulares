@@ -17,7 +17,7 @@ function radialLineChart() {
     xScale = d3.scaleTime();
     yScale = d3.scaleRadial();
 
-    var opacity = 0.7;
+    var opacity = 0.5;
 
     var colours = d3.scaleOrdinal(d3.schemeCategory10);
 
