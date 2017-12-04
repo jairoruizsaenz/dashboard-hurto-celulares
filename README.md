@@ -9,4 +9,4 @@ información y la poca divulgación por parte de las autoridades. Con datos ofic
 
 Te invito a interactuar con la visualización, Visita el Demo [aquí](https://jairoruizsaenz.github.io/dashboard-hurto-celulares/).
 
-[!["gif de la aplicación real"](dashboard-hurto-celulares/img/Animación.gif)](https://jairoruizsaenz.github.io/dashboard-hurto-celulares/)
+[!["gif de la aplicación real"](img/Animación.gif)](https://jairoruizsaenz.github.io/dashboard-hurto-celulares/)
