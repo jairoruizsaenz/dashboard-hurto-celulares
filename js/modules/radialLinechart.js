@@ -13,6 +13,9 @@ function radialLineChart() {
         outerRadius = Math.min((width - margin.right - margin.left), (height - margin.top - margin.bottom)) / 2 - 6,
         fullCircle = 2 * Math.PI;
 
+    var onMouseOver = function () { };
+    var onMouseOut = function () { };
+    
     var xValue = function (d) { return d[0]; };
     var yValue = function (d) { return d[1]; };
 
@@ -150,9 +153,11 @@ function radialLineChart() {
                 .attr("stroke-width", 1.5)
                 .attr("opacity", opacity)
                 .datum(function (d) { return dataSeries[d]; })
-                .attr("d", line)        
-                .append("svg:title")
-                .text(function(d) { return "JAIRO"; });
+                .attr("d", line)     
+                .on("mouseover", onMouseOver)
+                .on("mouseout", onMouseOut)
+                //.append("svg:title")
+                //.text(function(d) { return "Test"; });
                         
             ss.exit().remove();
 
@@ -276,6 +281,17 @@ function radialLineChart() {
     chart.subtitle = function (_) {
         if (!arguments.length) return subtitle;
         subtitle = _;
+        return chart;
+    };
+    chart.onMouseOver = function (_) {
+        if (!arguments.length) return onMouseOver;
+        onMouseOver = _;
+        return chart;
+    };
+
+    chart.onMouseOut = function (_) {
+        if (!arguments.length) return onMouseOut;
+        onMouseOut = _;
         return chart;
     };
 

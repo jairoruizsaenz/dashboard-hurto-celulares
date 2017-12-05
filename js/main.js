@@ -174,9 +174,13 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                 csData.dimYear.filterAll();
 
                 d3.select("#barrio_filter_label").text("")
-                d3.select("#genero_filter_label").text("")
-                d3.selectAll('rect').attr('style', 'fill:;')
-
+                d3.select("#genero_filter_label").text("")                            
+                d3.select("#barrioBarChart").selectAll('rect').attr('style', 'fill:"";')
+                d3.select("#gender").selectAll('rect').attr('style', 'fill:"";')
+                d3.select("#heatmapArmaMovilchart").selectAll('.hour').attr('style', 'stroke-width:2;')
+                d3.select("#weekButtons").selectAll('*').classed("selected", false);
+                d3.select("#yearButtons").selectAll('*').classed("selected", false);
+                                
                 //-----------------------------------------------------                                
                 //Arma Empleada
                 /*
@@ -190,9 +194,10 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                     update();
                 });
                 */
+
                 //-----------------------------------------------------                
                 //Barrio
-                barrioBarChart.onMouseOver(function (d) {
+                barrioBarChart.onMouseOver(function (d) {                    
                     csData.dimBarrio.filter(d.key);
                     d3.select("#barrio_filter_label").text(" " + d.key)
                     update();
@@ -243,8 +248,8 @@ d3.tsv("data/Hurto celulares - Bogota_5.tsv",
                 //-----------------------------------------------------                
                 //Year
                 yearButtonControl.onMouseOver(function (d) {
-                    csData.dimYear.filter(d.key);
                     // csData.dimTimestamp.filter(d.key.getFullYear());
+                    csData.dimYear.filter(d.key);                    
                     update();
                 });
                 yearButtonControl.onMouseOut(function (d) {
