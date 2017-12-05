@@ -2,7 +2,7 @@
 
 function buttonControl(selection) {
     var
-        margin = { top: 10, right: 10, bottom: 10, left: 10 },
+        margin = { top: 0, right: 10, bottom: 0, left: 10 },
         width = 200,
         height = 100,
         innerWidth = width - margin.left - margin.right,
@@ -21,7 +21,8 @@ function buttonControl(selection) {
 
             svgEnter = svg.enter()
                 .append('svg')
-                .attr("class", "buttonControl")
+                //.attr("class", "buttonControl")
+            .attr("class", "buttonControl")
                 .attr("width", width)
                 .attr("height", height)
                 .append("g").attr("class", "content text")
@@ -38,11 +39,13 @@ function buttonControl(selection) {
                 .data(data);
             g_text.enter()
                 .append("text")
-                .attr('class', 'btn')
+                .attr("class", "btn")                
                 .merge(g_text)
                 .attr('x', function (d) { return X(d) + 5; })
+                .attr('y', 10)
                 .text(function (d) { return xValue(d) })
                 .attr('style', 'font-size:10px;')
+                .attr('style', 'background: #fd703c;')            
                 .on("mouseover", onMouseOver)
                 .on("mouseout", onMouseOut)
                 .on("click", onMouseClick);

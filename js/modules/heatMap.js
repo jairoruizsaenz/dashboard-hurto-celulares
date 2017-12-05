@@ -2,9 +2,9 @@
 
 function heatMap(selection) {
   var
-    margin = { top: 80, right: 0, bottom: 130, left: 150 },
+    margin = { top: 80, right: 0, bottom: 100, left: 150 },
     width = 400 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom,
+    height = 360 - margin.top - margin.bottom,
     gridSize = Math.floor(width / 13),
     legendElementWidth = gridSize*1.85,
     buckets = 7,

@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>LabUrbano Criminalidad</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>LabUrbano Criminalidad</h2>
+					<h3>Hurto de celulares</h3>
+					<p>
+						<small>
+							Creado por</br></br>
+							<a href="https://github.com/FranciscoAriza" target="_blank">Ariza B. Francisco</a></br>
+							<a href="https://github.com/JofreManchola" target="_blank">Manchola M. Jofre</a></br>
+							<a href="https://github.com/jairoruizsaenz" target="_blank">Ruiz S. Jairo</a></br></br>
+							para</br></br>
+							<a href="http://datapopalliance.org/" target="_blank">Data-Pop Alliance</a>
+						</small>
+					</p>
+					<p>
+						  <small>
+								  Universidad de los Andes, Bogotá, Colombia</br>
+									<a href="http://johnguerra.co/classes/isis_4822_fall_2016/" target="_blank">Curso - Visual Anallytics</a></br>
+									2017
+							</small>
+					</p>
+				</section>
+
+				<section>
+					<h4>Contexto</h4>
+					<img src="img/info-inseguridad-1.jpg" />
+				</section>
+				<section id="fragments">
+					  Te has preguntado...
+						<p><span class="fragment" style="color: green">¿Cuál es el barrio de Bogotá con mayor índice de hurto de celulares?</span></p>
+						<p><span class="fragment">¿Cuál es el arma o método preferido por los amigos de lo ajeno?</span></p>
+						<p><span class="fragment" style="color: green">¿Cuál es el medio de movilización preferido por los ladrónes?</span></p>
+						<p><span class="fragment">¿Las víctimas son en su mayoría mujeres o hombres?</span> <span class="fragment" style="color: green">¿En qué rango de edades?</span></p>
+						<p><span class="fragment">... quieres</span> <span class="fragment">conocer</span> <span class="fragment">las respuestas?</span></p>
+				</section>
+				<section>
+						<h4>What</h4>
+						<p style="margin-bottom: 0">
+							  <small>Dataset: Delito de hurto a celular en la zona urbana de Bogotá.</small>
+						</p>
+						<div style="text-align: center">
+								<img src="img/atributos.png" />
+						</div>
+				</section>
+				<section id="fragments">
+						<h4>Why</h4>
+						<p style="margin-bottom: 0">
+							  Permitir al usuario <span class="fragment highlight-green">explorar</span> los datos y <span class="fragment highlight-green">descubrir</span> características de su interés</br></br>
+								<small class="fragment">
+									<span class="fragment highlight-green">Descubrir</span> características interesantes sobre el hurto de celulares a partir de:
+									<ul>
+										  <li>Ubicación (barrio)</li>
+											<li>Año</li>
+											<li>Día de la semana (lunes, martes, miércoles, etc.)</li>
+											<li>Género (masculino, femenino)</li>
+											<li>Rango de edad</li>
+											<li>Arma empleada y móvil del agresor</li>
+											<li>Temporalidad (mes, semana, día)</li>
+									</ul>
+								</small>
+						</p>
+				</section>
+				<section>
+						<h4>How</h4>
+						<img src="img/dashboard.gif"/>
+				</section>
+				<section>
+					  <h4>How</h4>
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/nEsBA8cn_NY" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe></br>
+						<a href="https://jairoruizsaenz.github.io/dashboard-hurto-celulares/" target="_blank">Demo</a>
+				</section>
+				<section id="fragments">
+					  <h4>Insights</h4>
+						<ul>
+							  <li class="fragment" style="margin-bottom: 20px; text-align:justify"><small>En el año 2010 hurtaban más celulares a hombres que a mujeres,
+										sin embargo se identifica que año tras año las cifras de hurto a
+										mujeres han aumentado y para el año 2016 la cantidad de hurtos
+										son similares entre ambos géneros.</small>
+								</li>
+								<li class="fragment" style="margin-bottom: 20px; text-align:justify">
+									<small>Los hombres son más propensos a ser atacados con arma blanca
+									en el evento de hurto.</small>
+								</li>
+								<li class="fragment" style="margin-bottom: 20px; text-align:justify">
+									<small>La mayoría de personas a las que les hurtan su celular utilizando
+									un arma de fuego, son hombres.</small>
+								</li>
+								<li class="fragment" style="margin-bottom: 20px; text-align:justify">
+									<small>Los barrios de la zona de chapinero y zona centro son los que
+									presentan mayor cantidad y frecuencia en el hurto a celular.</small>
+								</li>
+								<li class="fragment" style="margin-bottom: 20px; text-align:justify">
+									  <small>En el modismo temporal por semana se evidencia una estacionalidad en Semana Santa, siempre se reducen la cantidad de hurtos.</small>
+								</li>
+								<li class="fragment" style="margin-bottom: 20px; text-align:justify">
+									  <small>Antes robaban más entre 25 y 35 años, ahora entre 20 y 30 años.</small>
+								</li>
+						</ul>
+				</section>
+				<section>
+					  <h1>Gracias</h1>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

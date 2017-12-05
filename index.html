@@ -1,95 +1,107 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Hurto de Celulares</title>
 
-<head>
-    <title>JavaScript modules</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,300i,400" rel="stylesheet">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-        crossorigin="anonymous">
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js" integrity="sha256-T9tvV3x+/vCnCoFciKNZwbaJ46q9lh6iZjD0ZjD95lE="
+            crossorigin="anonymous"></script>
+        <script src="js/modules/d3-scale-radial.js"></script>
+        <script src="js/modules/buttonControl.js"></script>
+        <script src="js/modules/barChart.js"></script>
+        <script src="js/modules/genderModule.js"></script>
+        <script src="js/modules/heatMap.js"></script>
+        <script src="js/modules/radialLinechart.js"></script>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="https://openlayers.org/en/v4.4.2/css/ol.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
-    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    </head>
+    <body>
+        <div class="container">
+            <header>
+            </header>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
-        crossorigin="anonymous"></script>
+            <h1 style="text-align: center;">LABURBANO CRIMINALIDAD</h1>
+            <h2 style="text-align: center;">Hurto de Celulares en la ciudad de Bogota, Colombia (2010 - 2016)</h2>
 
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
-    <script src="https://openlayers.org/en/v4.4.2/build/ol.js"></script>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js" integrity="sha256-T9tvV3x+/vCnCoFciKNZwbaJ46q9lh6iZjD0ZjD95lE="
-        crossorigin="anonymous"></script>
-    <script src="js/modules/d3-scale-radial.js"></script>
-    <script src="js/modules/buttonControl.js"></script>
-    <script src="js/modules/barChart.js"></script>
-    <script src="js/modules/genderModule.js"></script>
-    <script src="js/modules/radialLinechart.js"></script>
-    <script src="js/modules/scatterPlot.js"></script>
-    <script src="js/modules/heatMap.js"></script>
-</head>
+            <p class="main-text">
+                El hurto de celulares es un delito de alto impacto en la ciudad de Bogotá, el aumento en la cantidad de hurtos reportados, preocupa a las autoridades y a la población en general, sin embargo, la mayoría de la población desconoce las zonas en las que más se presenta este delito, pasando por alto variables de tiempo, modo y frecuencia de los eventos por el escaso conocimiento de la información y la poca divulgación por parte de las autoridades. Con datos oficiales de los hurtos a celular reportados entre los años 2010 y 2016, se propone implementar una visualización que permita presentar y descubrir insights para el uso y dominio público.
 
-<body>
-    <h1>Hurto a celular en Bogotá</h1>
-    <input id="checkBox01" type="checkbox" class="interactiveObject">Usar filtro dinámico
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12 col-md-4">
-                <div id="buttons">
-                    <div id="weekButtons"></div>
-                    <div id="yearButtons"></div>
+                <p>Para mayor información sobre el uso de la aplicación visite el <a href="https://www.youtube.com/watch?v=nEsBA8cn_NY" target="_blank">Video Tutorial</a></p>
+            </p>
+
+            <hr noshade size="1">
+            <div id="button_wrapper"  style="margin-bottom: 0px;">
+                <input id="checkBox01" type="checkbox" class="interactiveObject"> <strong>Usar filtro dinámico</strong>
+                <div id="weekButtons" style="margin-bottom: 0px;"></div>
+                <div id="yearButtons" style="margin-bottom: 0px;"></div>
+            </div>
+            <hr noshade size="1">
+            <div id="wrapper_01">
+                <div id="first_01">
+                    <h3>Barrio</h3>
+                    <p id="titulo_barrio" class="filter_text" style="margin-right: 20px;"><strong>Filtro:</strong></p>
+                    <div id="barrioBarChart"></div>
+                </div>
+                <div id="second_01">
+                    <h3>Género</h3>
+                    <p id="titulo_genero" class="filter_text" style="margin-right: 20px;"><strong>Filtro:</strong></p>
+                    <div id="gender"></div>
+                </div>
+                <div id="third_01">
+                    <h3>Arma empleada vs móvil del agresor</h3>
+                    <p id="titulo_heatmap" class="filter_text" style="margin-right: 20px;"><strong>Filtro:</strong></p>
+                    <div id="heatmapArmaMovilchart"></div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <h3 id="titulo_barrio">Barrio</h3>
-                <div id="barrioBarChart"></div>
-            </div>
-            <div class="col-xs-4">
-                <h3 id="titulo_genero">Género</h3>
-                <div id="gender"></div>
-            </div>
-            <div class="col-xs-4">
-                <h3>Arma empleada vs móvil del agresor</h3>
-                <div id="heatmapArmaMovilchart"></div>
-            </div>
-        </div>
-        <div class="clear"></div>
-        <div class="row">
-            <div class="col-xs-4">
-                <h3>Mes</h3>
-                <div id="mesRadialLinechart"></div>
-            </div>
-            <div class="col-xs-4">
-                <h3>Semana</h3>
-                <div id="semanaRadialLinechart"></div>
-            </div>
-            <div class="col-xs-4">
-                <h3>Día</h3>
-                <div id="diaRadialLinechart"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <!-- <div id="armaBarChart"></div> -->
-            </div>
-        </div>
-    </div>
-    <script src="js/main.js"></script>
-    <a target="_blank" href="https://github.com/JofreManchola/dashboard-hurto-celular-bogota">
-        <img style="position: absolute; top: 0; right: 0; border: 0;" src="img/forkme_right_darkblue.png" alt="Fork me on GitHub">
-    </a>
-</body>
 
+            <div id="wrapper_02">
+                <div id="first_02">
+                    <h3>Mes</h3>
+                    <div id="mesRadialLinechart"></div>
+                </div>
+                <div id="second_02">
+                    <h3>Semana</h3>
+                    <div id="semanaRadialLinechart"></div>
+                </div>
+                <div id="third_02">
+                    <h3>Día</h3>
+                    <div id="diaRadialLinechart"></div>
+                </div>
+            </div>
+            <hr noshade size="1">
+            <p class="main-text">
+                El dashboard construido con sus 6 modismos permitió descubrir varios insights interesantes entre los que se resaltan los que a consideración de los autores son significativos:
+            </p>
+
+            <h3> Insights: </h3>
+
+            <li>En el año 2010 hurtaban más celulares a hombres que a mujeres, sin embargo se identifica que año tras año las cifras de hurto a mujeres han aumentado y para el año 2016 la cantidad de hurtos son similares entre ambos géneros.</li>
+            <li>Los hombres son más propensos a ser atacados con arma blanca en el evento de hurto.</li>
+            <li>La mayoría de personas a las que les hurtan su celular utilizando un arma de fuego, son hombres.</li>
+            <li>Los barrios de la zona de chapinero y zona centro son los que presentan mayor cantidad y frecuencia en el hurto a celular.</li>
+            <li>En el modismo temporal por semana se evidencia una estacionalidad en Semana Santa, siempre se reducen la cantidad de hurtos.</li>
+            <li>Antes robaban más entre 25 y 35 años, ahora entre 20 y 30 años.</li>
+
+            <script src="js/main.js"></script>
+
+            <hr noshade size="1">
+            <br>
+
+            <footer>
+                <p><strong>LABURBANO CRIMINALIDAD - Hurto de Celulares</strong> fue implementado por
+                    <a href="https://github.com/jairoruizsaenz" target="_blank">Jairo Ruiz Saenz</a>  -
+                    <a href="https://github.com/JofreManchola" target="_blank">Jofre Manchola Martinez</a>  -
+                    <a href="https://github.com/franciscoariza" target="_blank">Francisco Ariza Benavides</a></p>
+                    <p><a href="https://github.com/jairoruizsaenz/dashboard-hurto-celulares" target="_blank">Ver Repositorio</a> -
+                       Fecha de actualización: 05/12/2017 </p>
+            </footer>
+
+            <a target="_blank" href="https://github.com/jairoruizsaenz/dashboard-hurto-celulares">
+            <img style="position: absolute; top: 0; right: 0; border: 0;" src="img/forkme_right_darkblue.png" alt="Fork me on GitHub"></a>
+
+        </div>
+    </body>
 </html>

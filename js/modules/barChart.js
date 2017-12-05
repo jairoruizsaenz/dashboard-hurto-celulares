@@ -13,7 +13,8 @@ function barChart(selection) {
     yScale = d3.scaleLinear(),   
     onMouseOver = function () { },
     onMouseOut = function () { },
-    onMouseClick = function(){ };
+    onMouseClick = function(){ },
+    justOnce = true;
     
   function chart(selection) {
     selection.each(function (data) {
@@ -49,8 +50,12 @@ function barChart(selection) {
         .attr("transform", "translate(0," + innerHeight + ")")
         .call(d3.axisBottom(xScale));
 
-      g.select(".y.axis")
-        .call(d3.axisLeft(yScale))
+      var EjeY = g.select(".y.axis")
+        .call(d3.axisLeft(yScale));
+        
+     if (justOnce){
+      
+         EjeY
         .append("text")
         .attr("transform", "translate(-50,20) rotate(-90)")
         .style("font-size", "15px")
@@ -58,6 +63,8 @@ function barChart(selection) {
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
         .text("Cantidad de eventos reportados");
+        justOnce = false;
+     }      
 
       var bars = g.selectAll(".bar")
         .data(function (d) { return d; });
