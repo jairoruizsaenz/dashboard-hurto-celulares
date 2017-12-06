@@ -78,9 +78,9 @@ function barChart(selection) {
         .attr("height", function (d) { return innerHeight - Y(d); })                
         .on("mouseover", onMouseOver)
         .on("mouseout", onMouseOut)
-        .on("click", onMouseClick)
-        .append("svg:title")
-          .text(function(d) { return d.value; });
+        .on("click", onMouseClick);
+        //.append("svg:title")
+        //  .text(function(d) { return d.value; });
             
       bars.exit().remove();
     });
